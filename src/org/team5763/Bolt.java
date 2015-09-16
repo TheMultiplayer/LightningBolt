@@ -53,7 +53,11 @@ public class Bolt extends Applet implements WindowListener{
 	    boltInstance.init();
 	    boltInstance.start();
 		manager=new ConfigurationManager();
-		joystick=new JoystickHandler();
+		try{
+			joystick=new JoystickHandler();
+		}catch (Exception e){
+			System.err.println("Could not load driver.  Check archetecture.");
+		}
 		listener=new NetworkListener();
 	}
 	public void paint(Graphics g) {

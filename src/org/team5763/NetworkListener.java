@@ -13,9 +13,15 @@ public class NetworkListener implements ITableListener {
 		try{
 			NetworkTable.setClientMode();
 			NetworkTable.setTeam(Bolt.manager.getTeamNumber());
-			System.out.println("[network]  Set team number to "+Bolt.manager.getTeamNumber());
+			if(Bolt.manager.getTeamNumber()==0){
+				System.out.println("[network]  Team number not set.  Reverting to localhost and enabling local NetworkTables server.");
+				NetworkTable.setServerMode();
+				NetworkTable.setIPAddress("127.0.0.1");
+			}else{
+				System.out.println("[network]  Set team number to "+Bolt.manager.getTeamNumber());
+			}
 		}catch (Exception e){
-			System.err.println("Connection failed.  Reverting to localhost.");
+			System.err.println("Connection failed.  Reverting to localhost.  No server will be started.");
 			NetworkTable.setIPAddress("127.0.0.1");
 		};
 		System.out.println("[network]  Getting table...");
@@ -23,6 +29,7 @@ public class NetworkListener implements ITableListener {
 		System.out.println("[network]  Done!");
 		table.putNumber("fX",0);
 		table.putNumber("fY",0);
+		table.putBoolean("updated", true);
 		table.addTableListener(this);
 	}
 	@Override
@@ -32,7 +39,10 @@ public class NetworkListener implements ITableListener {
 				x=(Double)arg2;
 			}else if(arg1.equals("fY")){
 				y=(Double)arg2;
+			}else if(arg1.equals("updated")){
+				return;
 			}
+			table.putBoolean("updated", true);
 			Bolt.joystick.drive(x, y);
 		}		
 	}
