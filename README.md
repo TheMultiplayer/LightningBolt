@@ -1,4 +1,5 @@
 # LightningBolt
+** WARNING: This was last used >2 years ago, and is likely out-of-date! **
 ## What is this?
 This is a tool that interfaces NetworkTables and SDL to allow an FRC robot to drive a force feedback joystick.  It is designed to operate on Windows; the main class is Bolt.
 ## NetworkTables interface
